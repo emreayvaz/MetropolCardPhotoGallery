@@ -1,0 +1,93 @@
+﻿@using System.Net.Http;
+@using DAL.Models;
+@using Microsoft.AspNetCore.Mvc;
+@using Microsoft.Extensions.Logging;
+@using MVC.Helpers;
+@using MVC.Models;
+@using Newtonsoft.Json;
+@{
+    Api _api = new Api();
+    List<Categories> categories = new List<Categories>();
+    HttpClient client = _api.Initial();
+    HttpResponseMessage res = await client.GetAsync("api/category");
+    if (res.IsSuccessStatusCode)
+    {
+        var result = res.Content.ReadAsStringAsync().Result;
+        categories = JsonConvert.DeserializeObject<List<Categories>>(result);
+    }
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://kit.fontawesome.com/85837175c8.js" crossorigin="anonymous"></script>
+</head>
+<style type="text/css">
+    body {
+        background-color: #F2F2F2;
+        margin-bottom: 90px;
+    }
+
+    footer > * {
+        color: white !important;
+    }
+</style>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #9772FB;">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img style="width:100px;" src="~/metropol-logo.png" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse pl-4">
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        <li class="nav-item mr-2">
+                            <a class="nav-link text-white" style="font-size: 20px;" asp-area="" asp-controller="Home" asp-action="Index">Homepage</a>
+                        </li>
+                        <li class="nav-item dropdown mr-2">
+                            <a class="nav-link dropdown-toggle text-white" style="font-size: 20px;" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Explore</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                @foreach (var item in categories)
+                                {
+                                    <a href="~/Category/Index/@item.Id" class="dropdown-item">@item.Name</a>
+                                }
+                            </div>
+                        </li>
+                        <li class="nav-item mr-2">
+                            <a class="nav-link text-white" style="font-size: 20px;" asp-area="" asp-controller="Photograph" asp-action="UploadPhoto">Upload Photo</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" style="background-color: #9772FB;">
+        <div class="container d-flex justify-content-between pt-1">
+            <div class="d-flex align-items-center">
+                &copy; 01.07.2022 - MetropolCard Case - Emre Ayvaz
+            </div>
+            <div style="padding-top: 15px;">
+                <a class="mr-2" href="https://www.linkedin.com/in/emre-ayvaz-71946917a/" target="_blank"><i class="fa-brands fa-linkedin" style="font-size:50px;color:white;"></i></a>
+                <a href="https://github.com/emreayvaz" target="_blank"><i class="fa-brands fa-github-square" style="font-size: 50px; color: white;"></i></a>
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
