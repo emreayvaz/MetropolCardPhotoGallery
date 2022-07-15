@@ -25,6 +25,21 @@ namespace API.Controllers
             photoRepository.Edit(photo);
             return photoRepository.GetById(id);
         }
+        [HttpGet]
+        [Route("GetByCategory")]
+        public IActionResult GetByCategory([FromQuery] int id)    //Kategoriye göre fotoğraflar gelir.
+        {
+            var photos = photoRepository.GetAll().Where(c => c.CategoryId == id).ToArray();
+            if (photos.Count() != 0)
+            {
+                return Ok(photos);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
         [HttpPost]
         public void UploadPhoto(Photos photo)
         {
