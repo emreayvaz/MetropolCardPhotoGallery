@@ -9,3 +9,4 @@ Soru 3 - Daha geniş vaktiniz olsaydı projeye neler eklemek isterdiniz?
 Kullanıcı girişli bir site yapmak isterdim. Kullanıcıların fotoğrafları beğenebildiği ve bu beğenme sayısına göre kategorilerin veya fotoğrafların listelenmesini isterdim.
 Beğeni sayısı yerine şuanlık görüntülenme sayısına göre bir listeleme yaptım.
 
+#deneme
